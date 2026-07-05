@@ -21,3 +21,23 @@ export interface Teacher {
 }
 
 export type TeachersResponse = Record<string, Omit<Teacher, 'id'>>;
+
+export interface TeachersFilters {
+  language?: string;
+  level: string;
+  price: number;
+}
+
+export interface GetTeachersParams {
+  page?: number;
+  limit?: number;
+  filters?: TeachersFilters;
+}
+
+export interface GetTeachersResult {
+  teachers: Teacher[];
+  total: number;
+  page: number;
+  limit: number;
+  hasMore: boolean;
+}

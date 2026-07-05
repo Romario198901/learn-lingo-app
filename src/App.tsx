@@ -3,7 +3,7 @@ import './App.css';
 import HomePage from './pages/HomePage';
 import TeachersPage from './pages/TeachersPage';
 import PrivateRoute from './routes/PrivateRoute';
-import FavouritesPage from './pages/FavouritesPage';
+import FavoritesPage from './pages/FavoritesPage';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         path="/favorites"
         element={
           <PrivateRoute>
-            <FavouritesPage />
+            <FavoritesPage />
           </PrivateRoute>
         }
       />
