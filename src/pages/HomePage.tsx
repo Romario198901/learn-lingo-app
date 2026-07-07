@@ -1,3 +1,5 @@
+import Button from '../components/ui/Button/Button';
+import Container from '../components/ui/Container/Container';
 import { useAuth } from '../hooks/useAuth';
 
 export default function HomePage() {
@@ -27,17 +29,19 @@ export default function HomePage() {
   }
 
   return (
-    <div>
-      <h1>Learn Lingo Firebase Auth Test</h1>
+    <Container>
+      <div>
+        <h1>Learn Lingo Firebase Auth Test</h1>
 
-      <p>Auth: {isAuth ? 'Yes' : 'No'}</p>
-      <p>User ID: {user?.userId ?? 'No user'}</p>
-      <p>User email: {user?.email ?? 'No email'}</p>
-      <p>User name: {user?.displayName ?? 'No name'}</p>
+        <p>Auth: {isAuth ? 'Yes' : 'No'}</p>
+        <p>User ID: {user?.userId ?? 'No user'}</p>
+        <p>User email: {user?.email ?? 'No email'}</p>
+        <p>User name: {user?.displayName ?? 'No name'}</p>
 
-      <button onClick={handleRegister}>Register</button>
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+        <Button variant='primary' onClick={handleRegister}>Register</Button>
+        <Button variant='secondary' onClick={handleLogin}>Login</Button>
+        <Button variant='ghost' onClick={handleLogout}>Logout</Button>
+      </div>
+    </Container>
   );
 }
