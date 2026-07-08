@@ -1,0 +1,51 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--color-overlay);
+}
+
+.modal {
+  position: relative;
+  max-width: 35.375rem;
+  max-height: calc(100vh - 2rem);
+  padding: 4rem;
+  overflow-y: auto;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-white);
+}
+
+.closeButton {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--color-text-main);
+  transition: color var(--transition-base);
+}
+.closeButton svg {
+  width: 2rem;
+  height: 2rem;
+  stroke: currentColor;
+  fill: none;
+}
+.closeButton:hover,
+.closeButton:focus {
+  color: var(--color-primary);
+}
+
+@media screen and (max-width: 47.9375rem) {
+  .modal {
+    padding: 2.5rem 1.5rem;
+  }
+}

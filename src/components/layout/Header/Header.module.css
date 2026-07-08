@@ -1,0 +1,92 @@
+.header {
+  padding: 1.25rem 0;
+  background-color: var(--color-white);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: 1.25;
+}
+
+.logoIcon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.logoText {
+  color: var(--color-text-main);
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.navLink {
+  position: relative;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-regular);
+  line-height: 1.25;
+  color: var(--color-text-main);
+  transition: color var(--transition-base);
+}
+
+.navLink:hover,
+.navLink:focus {
+  color: var(--color-primary);
+}
+
+.active {
+  color: var(--color-primary);
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loginButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  line-height: 1.25;
+  color: var(--color-text-main);
+  transition: color var(--transition-base);
+}
+
+.loginButton:hover,
+.loginButton:focus {
+  color: var(--color-primary);
+}
+
+.authNavigation {
+  display: flex;
+  align-items: center;
+}
+
+.userName {
+  max-width: 10rem;
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  line-height: 1.25;
+  color: var(--color-text-main);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+

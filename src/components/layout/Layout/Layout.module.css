@@ -1,0 +1,8 @@
+.wrapper {
+  min-height: 100vh;
+  background-color: var(--color-white);
+}
+
+.main {
+  flex-grow: 1;
+}

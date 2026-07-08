@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  line-height: 1.285;
+  color: var(--color-text-secondary);
+}

@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import css from './Button.module.css';
+import clsx from 'clsx';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 
@@ -19,7 +20,7 @@ export default function Button({
   return (
     <button
       type={type}
-      className={`${css.button} ${css[variant]} ${className}`}
+      className={clsx(css.button, css[variant], className)}
       {...props}
     >
       {children}
