@@ -1,0 +1,331 @@
+.card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  background-color: var(--color-white);
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 7.5rem;
+  height: 7.5rem;
+  padding: 0.75rem;
+  border: 0.1875rem solid var(--color-primary-light);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.statusIcon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.headerActions {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.statistics {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.statisticItem {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.statisticItem:not(:last-child)::after {
+  content: '';
+  width: 0.0625rem;
+  height: 1rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  background-color: rgba(18, 20, 23, 0.2);
+}
+
+.bookIcon {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+}
+
+.ratingIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.favoriteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.favoriteIcon {
+  width: 1.625rem;
+  height: 1.625rem;
+  fill: none;
+  stroke: currentColor;
+  transition:
+    fill 200ms ease,
+    stroke 200ms ease,
+    transform 200ms ease;
+}
+
+.favoriteButton:hover .favoriteIcon,
+.favoriteButton:focus-visible .favoriteIcon {
+  transform: scale(1.08);
+}
+
+.favoriteIconActive {
+  fill: var(--color-primary);
+  stroke: none;
+}
+.avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.onlineIndicator {
+  position: absolute;
+  top: 1rem;
+  right: 0.75rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 0.125rem solid var(--color-white);
+  border-radius: 50%;
+  background-color: #38cd3e;
+}
+
+.content {
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: rgba(18, 20, 23, 0.5);
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-text-main);
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+
+.summaryItem {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-text-main);
+}
+
+.price {
+  color: #38cd3e;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.detailRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.detailLabel {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: rgba(18, 20, 23, 0.5);
+}
+
+.detailValue {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-text-main);
+}
+
+.language {
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+}
+
+.readMoreButton {
+  margin-bottom: 2rem;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: underline;
+  background-color: transparent;
+  color: var(--color-text-main);
+  cursor: pointer;
+}
+
+.expandedContent {
+  margin-bottom: 2rem;
+}
+
+.experience {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text-main);
+}
+
+.reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reviewer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.reviewAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  font-weight: 500;
+  font-size: 1.25rem;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.reviewInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.reviewerName {
+  margin-bottom: 0.125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: rgba(18, 20, 23, 0.5);
+}
+
+.reviewRating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.29;
+  color: var(--color-text-main);
+}
+
+.reviewComment {
+  line-height: 1.5;
+  color: var(--color-text-main);
+}
+
+.levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.level {
+  padding: 0.5rem 0.75rem;
+  border: 0.0625rem solid rgba(18, 20, 23, 0.2);
+  border-radius: 2.1875rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.14;
+  color: var(--color-text-main);
+}
+
+.level:first-child {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+}
+
+.bookButton {
+  margin-top: 2rem;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 1rem 3rem;
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.25;
+  background-color: var(--color-primary);
+  color: var(--color-text-main);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 48rem) {
+  .card {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .summary {
+    justify-content: flex-end;
+  }
+}

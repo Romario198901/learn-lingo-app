@@ -19,7 +19,10 @@ export const addTeacherToFavorites = async (
   teacherId: string,
   userId: string
 ): Promise<void> => {
-  await axios.put(getFireBaseUrl(`users/${userId}/favorites/${teacherId}`));
+  await axios.put(
+    getFireBaseUrl(`users/${userId}/favorites/${teacherId}`),
+    true
+  );
 };
 
 export const deleteTeacherFromFavorites = async (

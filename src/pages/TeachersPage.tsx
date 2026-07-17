@@ -1,32 +1,57 @@
-import { useQuery } from '@tanstack/react-query';
-import { getTeachers } from '../services/teachers/teacherService';
-import Loader from '../components/Loader/Loader';
+import toast from 'react-hot-toast';
+
+import TeachersList from '../components/teachers/TeachersList/TeachersList';
+
+import { useAuth } from '../hooks/useAuth';
+import { useTeachers } from '../hooks/useTeachers';
+import { useFavorites } from '../hooks/favorites/useFavorites';
+import { useAddFavorite } from '../hooks/favorites/useAddFavorite';
+import { useDeleteFavorite } from '../hooks/favorites/useDeleteFavorite';
 
 export default function TeachersPage() {
-  const {
-    data: teachers = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ['teachers'],
-    queryFn: getTeachers,
+  const { user } = useAuth();
+
+  const userId = user?.userId;
+
+  const { data, isPending, isError } = useTeachers({
+    page: 1,
+    limit: 4,
   });
 
-  if (isLoading) return <Loader />;
-  if (isError) return;
+  const { data: favoriteTeacherIds = [] } = useFavorites(userId);
+
+  const addFavoriteMutation = useAddFavorite(userId ?? '');
+
+  const deleteFavoriteMutation = useDeleteFavorite(userId ?? '');
+
+  const handleFavoriteToggle = (teacherId: string) => {
+    if (!userId) {
+      toast.error('This functionality is available only to authorized users.');
+
+      return;
+    }
+    const isFavorite = favoriteTeacherIds.includes(teacherId);
+    if (isFavorite) {
+      deleteFavoriteMutation.mutate(teacherId);
+      return;
+    }
+
+    addFavoriteMutation.mutate(teacherId);
+  };
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError || !data) {
+    return <p>Something went wrong.</p>;
+  }
+
   return (
-    <div>
-      <h1>Teachers Page</h1>
-
-      <p>Total teachers: {teachers.length}</p>
-
-      <ul>
-        {teachers.map(teacher => (
-          <li key={teacher.id}>
-            {teacher.name} {teacher.surname} — ${teacher.price_per_hour}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <TeachersList
+      teachers={data.teachers}
+      favoriteTeacherIds={favoriteTeacherIds}
+      onFavoriteToggle={handleFavoriteToggle}
+    />
   );
 }
