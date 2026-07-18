@@ -18,6 +18,7 @@ const mapTeachers = (data: TeachersResponse | null): Teacher[] => {
       ...teacher,
     }));
   }
+
   return Object.entries(data).map(([id, teacher]) => ({
     id,
     ...teacher,
@@ -47,6 +48,25 @@ const filterTeachers = (
   });
 };
 
+const getAvailableLanguages = (teachers: Teacher[]): string[] => {
+  return [...new Set(teachers.flatMap(teacher => teacher.languages))].sort(
+    (firstLanguage, secondLanguage) =>
+      firstLanguage.localeCompare(secondLanguage)
+  );
+};
+
+const getAvailableLevels = (teachers: Teacher[]): string[] => {
+  return [...new Set(teachers.flatMap(teacher => teacher.levels))].sort(
+    (firstLevel, secondLevel) => firstLevel.localeCompare(secondLevel)
+  );
+};
+
+const getAvailablePrices = (teachers: Teacher[]): number[] => {
+  return [...new Set(teachers.map(teacher => teacher.price_per_hour))].sort(
+    (firstPrice, secondPrice) => firstPrice - secondPrice
+  );
+};
+
 export const getTeachers = async ({
   page = 1,
   limit = 4,
@@ -55,7 +75,13 @@ export const getTeachers = async ({
   const { data } = await axios.get<TeachersResponse | null>(
     getFireBaseUrl('teachers')
   );
+
   const teachers = mapTeachers(data);
+
+  const availableLanguages = getAvailableLanguages(teachers);
+  const availableLevels = getAvailableLevels(teachers);
+  const availablePrices = getAvailablePrices(teachers);
+
   const filteredTeachers = filterTeachers(teachers, filters);
 
   const start = (page - 1) * limit;
@@ -69,15 +95,19 @@ export const getTeachers = async ({
     page,
     limit,
     hasMore: end < filteredTeachers.length,
+    availableLanguages,
+    availableLevels,
+    availablePrices,
   };
 };
 
 export const getTeacherById = async (
   teacherId: string
 ): Promise<Teacher | null> => {
-  const { data } = await axios.get<Omit<Teacher, 'id'>>(
+  const { data } = await axios.get<Omit<Teacher, 'id'> | null>(
     getFireBaseUrl(`teachers/${teacherId}`)
   );
+
   if (!data) return null;
 
   return {

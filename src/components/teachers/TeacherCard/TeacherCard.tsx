@@ -9,12 +9,14 @@ interface TeacherCardProps {
   teacher: Teacher;
   isFavorite: boolean;
   onFavoriteToggle: (teacherId: string) => void;
+  onBookTrial: (teacher: Teacher) => void;
 }
 
 export default function TeacherCard({
   teacher,
   isFavorite,
   onFavoriteToggle,
+  onBookTrial,
 }: TeacherCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -204,7 +206,12 @@ export default function TeacherCard({
         </ul>
 
         {isExpanded && (
-          <Button className={css.bookButton}>Book trial lesson</Button>
+          <Button
+            className={css.bookButton}
+            onClick={() => onBookTrial(teacher)}
+          >
+            Book trial lesson
+          </Button>
         )}
       </div>
     </article>

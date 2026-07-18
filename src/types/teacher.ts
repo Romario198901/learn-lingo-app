@@ -24,8 +24,8 @@ export type TeachersResponse = Record<string, Omit<Teacher, 'id'>>;
 
 export interface TeachersFilters {
   language?: string;
-  level: string;
-  price: number;
+  level?: string;
+  price?: number;
 }
 
 export interface GetTeachersParams {
@@ -40,4 +40,7 @@ export interface GetTeachersResult {
   page: number;
   limit: number;
   hasMore: boolean;
+  availableLanguages: string[];
+  availableLevels: string[];
+  availablePrices: number[];
 }

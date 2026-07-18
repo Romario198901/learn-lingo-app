@@ -1,13 +1,20 @@
 export interface CreatedBookingRequest {
-  userId: string;
   teacherId: string;
-  name: string;
+  teacherName: string;
+  reason: string;
+  fullName: string;
   email: string;
   phone: string;
-  reason: string;
 }
 
 export interface BookingRequest extends CreatedBookingRequest {
   id: string;
   createdAt: number;
+}
+
+export interface BookingFormValues {
+  reason: string;
+  fullName: string;
+  email: string;
+  phone: string;
 }

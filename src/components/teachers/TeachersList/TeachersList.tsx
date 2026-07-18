@@ -7,12 +7,14 @@ interface TeachersListProps {
   teachers: Teacher[];
   favoriteTeacherIds: string[];
   onFavoriteToggle: (teacherId: string) => void;
+   onBookTrial:(teacher:Teacher)=>void;
 }
 
 export default function TeachersList({
   teachers,
   favoriteTeacherIds,
   onFavoriteToggle,
+  onBookTrial,
 }: TeachersListProps) {
   return (
     <ul className={css.list}>
@@ -25,6 +27,7 @@ export default function TeachersList({
               teacher={teacher}
               isFavorite={isFavorite}
               onFavoriteToggle={onFavoriteToggle}
+              onBookTrial={onBookTrial}
             />
           </li>
         );
