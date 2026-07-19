@@ -61,7 +61,7 @@ export default function TeacherCard({
       <div className={css.content}>
         <div className={css.header}>
           <div>
-            <p className={css.label}>Languages</p>
+            <p className={css.eyebrow}>Languages</p>
 
             <h2 className={css.name}>
               {name} {surname}
@@ -130,20 +130,20 @@ export default function TeacherCard({
           </div>
         </div>
 
-        <dl className={css.infoList}>
-          <div className={css.infoRow}>
-            <dt>Speaks:</dt>
-            <dd>{languages.join(', ')}</dd>
+        <dl className={css.details}>
+          <div className={css.detailRow}>
+            <dt className={css.detailLabel}>Speaks:</dt>
+            <dd className={`${css.detailValue} ${css.language}`}>{languages.join(', ')}</dd>
           </div>
 
-          <div className={css.infoRow}>
-            <dt>Lesson Info:</dt>
-            <dd>{lesson_info}</dd>
+          <div className={css.detailRow}>
+            <dt className={css.detailLabel}>Lesson Info:</dt>
+            <dd className={css.detailValue}>{lesson_info}</dd>
           </div>
 
-          <div className={css.infoRow}>
-            <dt>Conditions:</dt>
-            <dd>{conditions.join(', ')}</dd>
+          <div className={css.detailRow}>
+            <dt className={css.detailLabel}>Conditions:</dt>
+            <dd className={css.detailValue}>{conditions.join(', ')}</dd>
           </div>
         </dl>
 
@@ -173,7 +173,7 @@ export default function TeacherCard({
                     </div>
 
                     <div className={css.reviewInfo}>
-                      <p className={css.reviewName}>{review.reviewer_name}</p>
+                      <p className={css.reviewerName}>{review.reviewer_name}</p>
 
                       <div className={css.reviewRating}>
                         <svg

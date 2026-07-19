@@ -8,6 +8,7 @@ import { registrationSchema } from '../../../schemas/authSchemas';
 import type { RegistrationFormValues } from '../../../types/authForms';
 
 import css from './RegistrationForm.module.css';
+import toast from 'react-hot-toast';
 
 interface RegistrationFormProps {
   onSuccess?: () => void;
@@ -30,8 +31,13 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   });
 
   const onSubmit = async (values: RegistrationFormValues) => {
-    await registerUser(values);
-    onSuccess?.();
+    try {
+      await registerUser(values);
+      toast.success('Registration successful');
+      onSuccess?.();
+    } catch {
+      toast.error('Failed to register. This email may be already in use');
+    }
   };
 
   return (
@@ -67,7 +73,11 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
           {...register('password')}
         />
 
-        <Button type="submit" disabled={isSubmitting}  className={css.submitButton}>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className={css.submitButton}
+        >
           {isSubmitting ? 'Loading...' : 'Sign Up'}
         </Button>
       </form>

@@ -8,6 +8,7 @@ import { loginSchema } from '../../../schemas/authSchemas';
 import type { LoginFormValues } from '../../../types/authForms';
 
 import css from './LoginForm.module.css';
+import toast from 'react-hot-toast';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -29,8 +30,13 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
   });
 
   const onSubmit = async (values: LoginFormValues) => {
-    await login(values);
-    onSuccess?.();
+    try {
+      await login(values);
+      toast.success('Logged in successfully');
+      onSuccess?.();
+    } catch {
+      toast.error('Invalid email or password');
+    }
   };
 
   return (
@@ -39,7 +45,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
         <h2 className={css.title}>Log In</h2>
         <p className={css.text}>
           Welcome back! Please enter your credentials to access your account and
-          continue your search for an teacher.
+          continue your search for a teacher.
         </p>
       </div>
 
@@ -58,7 +64,11 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
           {...register('password')}
         />
 
-        <Button type="submit" disabled={isSubmitting}  className={css.submitButton}>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className={css.submitButton}
+        >
           {isSubmitting ? 'Loading...' : 'Log In'}
         </Button>
       </form>

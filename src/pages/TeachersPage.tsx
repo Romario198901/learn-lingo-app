@@ -105,11 +105,11 @@ export default function TeachersPage() {
     const isFavorite = favoriteTeacherIds.includes(teacherId);
 
     if (isFavorite) {
-      deleteFavoriteMutation.mutate(teacherId);
+      deleteFavoriteMutation.mutate(teacherId, {onError: ()=> {toast.error('Failed to delete teacher from favorites')}});
       return;
     }
 
-    addFavoriteMutation.mutate(teacherId);
+    addFavoriteMutation.mutate(teacherId, {onError: ()=> {toast.error('Failed to add teacher to favorites')}});
   };
 
   const handleBookTrial = (teacher: Teacher) => {

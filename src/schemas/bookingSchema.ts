@@ -5,9 +5,7 @@ import type { BookingFormValues } from '../types/booking';
 const PHONE_REGEXP = /^\+?[0-9\s()-]{10,20}$/;
 
 export const bookingSchema: yup.ObjectSchema<BookingFormValues> = yup.object({
-  reason: yup
-    .string()
-    .required('Please select your main reason for learning English'),
+  reason: yup.string().required('Please select your main reason for learning'),
 
   fullName: yup
     .string()

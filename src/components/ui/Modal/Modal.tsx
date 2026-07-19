@@ -41,7 +41,11 @@ export default function Modal({
 
   return createPortal(
     <div className={css.backdrop} onClick={handleBackDropClick}>
-      <div className={clsx(css.modal, className)}>
+      <div
+        className={clsx(css.modal, className)}
+        role="dialog"
+        aria-modal='true'
+      >
         <button
           className={css.closeButton}
           type="button"

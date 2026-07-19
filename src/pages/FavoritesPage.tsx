@@ -15,6 +15,7 @@ import { useFavoriteTeachers } from '../hooks/favorites/useFavoriteTeachers';
 import { useFavorites } from '../hooks/favorites/useFavorites';
 
 import type { Teacher } from '../types/teacher';
+import toast from 'react-hot-toast';
 
 export default function FavoritesPage() {
   const [selectedLanguage, setSelectedLanguage] = useState<SelectOption | null>(
@@ -103,7 +104,11 @@ export default function FavoritesPage() {
       return;
     }
 
-    deleteFavoriteMutation.mutate(teacherId);
+    deleteFavoriteMutation.mutate(teacherId, {
+      onError: () => {
+        toast.error('Failed to delete teacher from favorites');
+      },
+    });
   };
 
   const handleBookTrial = (teacher: Teacher) => {
