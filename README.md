@@ -1,79 +1,175 @@
-# learn-lingo-app
+# Learn Lingo App
 
-A small React + TypeScript + Vite app for learning languages (personal project).
+A modern React + TypeScript + Vite application for learning languages with teachers, bookings, and personalized favorites. Built with Firebase for authentication and data management, and React Query for efficient server state management.
 
-## Features
-- Email/password auth (Firebase)
-- Teachers listing, booking, and favorites
-- Client-side data fetching with React Query
+## 🎯 Features
 
-## Tech stack
-- Vite + React + TypeScript
-- Firebase (auth + database)
-- React Query
-- CSS Modules
+- **Authentication**: Email/password authentication powered by Firebase
+- **Teachers Catalog**: Browse and filter available language teachers
+- **Booking System**: Schedule lessons with your preferred teachers
+- **Favorites**: Save and manage your favorite teachers
+- **Responsive UI**: Mobile-friendly design with CSS Modules
+- **Real-time Data**: Firebase integration for live updates
+- **Form Validation**: Robust form handling with React Hook Form and Yup schemas
 
-## Quick start
+## 🛠️ Tech Stack
 
-1. Install dependencies
+- **Frontend Framework**: React 19.2 with TypeScript
+- **Build Tool**: Vite 8.1
+- **State Management**: React Query 5.101
+- **Authentication & Database**: Firebase 12.15
+- **Routing**: React Router 7.18
+- **Form Management**: React Hook Form 7.80 + Yup validators
+- **HTTP Client**: Axios 1.18
+- **UI Components**: React Select, React Loader Spinner
+- **Styling**: CSS Modules + Modern Normalize
+- **Code Quality**: ESLint + TypeScript compiler
+- **Compiler Optimization**: Babel React Compiler
 
-```bash
-npm install
+## 📁 Project Structure
+
+```
+src/
+├── api/                      # Firebase and REST API configuration
+│   ├── firebase.ts          # Firebase initialization
+│   └── firebaseRest.ts      # Firebase REST API client
+├── components/              # Reusable React components
+│   ├── auth/               # Authentication forms (Login, Registration)
+│   ├── layout/             # Layout components (Header, Navigation, UserMenu)
+│   ├── home/               # Home page components (Hero, Statistics)
+│   ├── teachers/           # Teacher-related components (TeacherCard, TeachersList)
+│   ├── BookingForm/        # Booking form component
+│   ├── Loader/             # Loading spinner
+│   └── ui/                 # Reusable UI elements (Button, Input, Modal, Select, Container)
+├── context/                # React Context for global state
+│   ├── authContext.ts      # Authentication context definition
+│   └── AuthProvider.tsx    # Authentication provider component
+├── hooks/                  # Custom React hooks
+│   ├── useAuth.ts         # Authentication hook
+│   ├── useCreateBooking.ts # Booking creation hook
+│   ├── useTeachers.ts     # Teachers data hook
+│   └── favorites/         # Favorite teachers hooks
+├── pages/                  # Page components
+│   ├── HomePage.tsx       # Home page
+│   ├── TeachersPage.tsx   # Teachers listing page
+│   └── FavoritesPage.tsx  # Favorites page
+├── routes/                # Routing utilities
+│   └── PrivateRoute.tsx   # Protected route component
+├── schemas/               # Validation schemas
+│   ├── authSchemas.ts     # Auth form validation
+│   └── bookingSchema.ts   # Booking form validation
+├── services/              # API service functions
+│   ├── auth/             # Authentication services
+│   ├── booking/          # Booking services
+│   ├── favorites/        # Favorites services
+│   └── teachers/         # Teachers data services
+├── types/                # TypeScript type definitions
+│   ├── auth.ts          # Auth-related types
+│   ├── authForms.ts     # Auth form types
+│   ├── booking.ts       # Booking types
+│   └── teacher.ts       # Teacher types
+├── utils/               # Utility functions
+│   └── queryClient.ts   # React Query client configuration
+├── constants/           # Application constants
+│   ├── booking.ts       # Booking constants
+│   ├── navigation.ts    # Navigation routes
+│   └── routes.ts        # Route definitions
+└── App.tsx              # Main App component
 ```
 
-2. Run dev server
+## 🚀 Getting Started
 
-```bash
-npm run dev
-```
+### Prerequisites
 
-3. Build for production
+- Node.js 16+ and npm
+- Firebase project with authentication enabled
 
-```bash
-npm run build
-```
+### Installation
 
-4. Preview production build
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd learn-lingo-app
+   ```
 
-```bash
-npm run preview
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Environment
+3. **Set up environment variables**
+   
+   Create a `.env` file in the root directory with your Firebase project credentials:
+   ```env
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
+   ```
 
-This project uses Firebase. Create a `.env` (or use your OS env) with the following variables copied from your Firebase project settings:
+   You can find these values in your Firebase project settings console.
 
-- VITE_FIREBASE_API_KEY
-- VITE_FIREBASE_AUTH_DOMAIN
-- VITE_FIREBASE_PROJECT_ID
-- VITE_FIREBASE_STORAGE_BUCKET
-- VITE_FIREBASE_MESSAGING_SENDER_ID
-- VITE_FIREBASE_APP_ID
+### Available Scripts
 
-See the Firebase config usage in `src/api/firebase.ts` and `src/api/firebaseRest.ts`.
+- **`npm run dev`** - Start the development server (localhost:5173)
+- **`npm run build`** - Build the application for production with type checking
+- **`npm run lint`** - Run ESLint to check code quality
+- **`npm run preview`** - Preview the production build locally
 
-If you'd prefer a template file, copy `.env.example` to `.env` and fill the values.
+## 📋 Development Guide
 
-## Scripts
+### Authentication Flow
 
-The project scripts (from `package.json`) are:
+- User registration/login through Firebase authentication
+- Auth state managed via React Context (`authContext.ts`)
+- Protected routes using `PrivateRoute` component
+- Auth hook (`useAuth.ts`) for accessing user state throughout the app
 
-- `dev` — start Vite dev server
-- `build` — `tsc -b && vite build` (type-check + build)
-- `lint` — `eslint .`
-- `preview` — locally preview production build
+### Data Fetching
 
-Run linters and tests if configured in `package.json`.
+- Server state management via React Query
+- API calls through custom hooks and service functions
+- Optimistic updates and caching for better UX
 
-## Contributing
+### Form Handling
 
-1. Fork / branch
-2. Add features or fixes
-3. Open a PR with a short description
+- Form validation using Yup schemas
+- React Hook Form for efficient form state management
+- Custom validation schemas in `schemas/` directory
 
-## Notes
-- If you hit issues starting the dev server, run `npm install` and ensure your Node version is compatible with the project (Node 16+ recommended).
+### Styling
 
----
+- CSS Modules for component-scoped styling
+- No global CSS pollution
+- Responsive design patterns
+
+## 🔄 Data Models
+
+### Teacher
+- ID, name, description, languages, specialization, experience level, rating, etc.
+
+### Booking
+- User ID, teacher ID, date, time, lesson details
+
+### User (Auth)
+- Email, password, display name, preferences
+
+## 🤝 Contributing
+
+This is a personal project for learning purposes. Feel free to fork and experiment!
+
+## 📝 Notes
+
+- The app uses Firebase Realtime Database for data persistence
+- React Query manages server state with automatic caching and synchronization
+- All forms include client-side validation before submission
+- The app is optimized with React Compiler for better performance
+- If you hit issues starting the dev server, run `npm install` and ensure your Node version is compatible (Node 16+ recommended)
+
+## 📄 License
+
+Personal project - All rights reserved
 
 
