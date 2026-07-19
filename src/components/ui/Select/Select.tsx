@@ -122,6 +122,7 @@ export default function Select({
         placeholder={placeholder}
         styles={selectStyles}
         isSearchable={false}
+        isClearable
       />
     </label>
   );

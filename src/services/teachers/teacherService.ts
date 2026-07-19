@@ -9,6 +9,10 @@ import type {
   TeachersResponse,
 } from '../../types/teacher';
 
+interface GetTeachersByIdsParams extends GetTeachersParams {
+  teacherIds: string[];
+}
+
 const mapTeachers = (data: TeachersResponse | null): Teacher[] => {
   if (!data) return [];
 
@@ -40,9 +44,10 @@ const filterTeachers = (
       ? teacher.levels.includes(filters.level)
       : true;
 
-    const matchesPrice = filters.price
-      ? teacher.price_per_hour <= filters.price
-      : true;
+    const matchesPrice =
+      filters.price !== undefined
+        ? teacher.price_per_hour <= filters.price
+        : true;
 
     return matchesLanguage && matchesLevel && matchesPrice;
   });
@@ -67,17 +72,12 @@ const getAvailablePrices = (teachers: Teacher[]): number[] => {
   );
 };
 
-export const getTeachers = async ({
-  page = 1,
-  limit = 4,
-  filters,
-}: GetTeachersParams): Promise<GetTeachersResult> => {
-  const { data } = await axios.get<TeachersResponse | null>(
-    getFireBaseUrl('teachers')
-  );
-
-  const teachers = mapTeachers(data);
-
+const buildTeachersResult = (
+  teachers: Teacher[],
+  page: number,
+  limit: number,
+  filters?: TeachersFilters
+): GetTeachersResult => {
   const availableLanguages = getAvailableLanguages(teachers);
   const availableLevels = getAvailableLevels(teachers);
   const availablePrices = getAvailablePrices(teachers);
@@ -101,6 +101,24 @@ export const getTeachers = async ({
   };
 };
 
+const fetchTeachers = async (): Promise<Teacher[]> => {
+  const { data } = await axios.get<TeachersResponse | null>(
+    getFireBaseUrl('teachers')
+  );
+
+  return mapTeachers(data);
+};
+
+export const getTeachers = async ({
+  page = 1,
+  limit = 4,
+  filters,
+}: GetTeachersParams): Promise<GetTeachersResult> => {
+  const teachers = await fetchTeachers();
+
+  return buildTeachersResult(teachers, page, limit, filters);
+};
+
 export const getTeacherById = async (
   teacherId: string
 ): Promise<Teacher | null> => {
@@ -114,4 +132,23 @@ export const getTeacherById = async (
     id: teacherId,
     ...data,
   };
+};
+
+export const getTeachersByIds = async ({
+  teacherIds,
+  page = 1,
+  limit = 4,
+  filters,
+}: GetTeachersByIdsParams): Promise<GetTeachersResult> => {
+  if (teacherIds.length === 0) {
+    return buildTeachersResult([], page, limit, filters);
+  }
+
+  const teachers = await fetchTeachers();
+
+  const favoriteTeachers = teachers.filter(teacher =>
+    teacherIds.includes(teacher.id)
+  );
+
+  return buildTeachersResult(favoriteTeachers, page, limit, filters);
 };

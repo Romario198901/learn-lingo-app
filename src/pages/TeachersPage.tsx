@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import css from './TeachersPage.module.css'
+import css from './TeachersPage.module.css';
+
 import TeachersList from '../components/teachers/TeachersList/TeachersList';
 import Loader from '../components/Loader/Loader';
 import Modal from '../components/ui/Modal/Modal';
 import Select, { type SelectOption } from '../components/ui/Select/Select';
 import BookingForm from '../components/BookingForm/BookingForm';
+import Button from '../components/ui/Button/Button';
 
 import { useAuth } from '../hooks/useAuth';
 import { useTeachers } from '../hooks/useTeachers';
@@ -15,7 +17,6 @@ import { useAddFavorite } from '../hooks/favorites/useAddFavorite';
 import { useDeleteFavorite } from '../hooks/favorites/useDeleteFavorite';
 
 import type { Teacher } from '../types/teacher';
-import Button from '../components/ui/Button/Button';
 
 export default function TeachersPage() {
   const [selectedLanguage, setSelectedLanguage] = useState<SelectOption | null>(
@@ -51,8 +52,48 @@ export default function TeachersPage() {
   const { data: favoriteTeacherIds = [] } = useFavorites(userId);
 
   const addFavoriteMutation = useAddFavorite(userId ?? '');
-
   const deleteFavoriteMutation = useDeleteFavorite(userId ?? '');
+
+  const { teachers, languageOptions, levelOptions, priceOptions } =
+    useMemo(() => {
+      if (!data) {
+        return {
+          teachers: [],
+          languageOptions: [],
+          levelOptions: [],
+          priceOptions: [],
+        };
+      }
+
+      const firstPage = data.pages[0];
+
+      const teachers = data.pages.flatMap(page => page.teachers);
+
+      const languageOptions: SelectOption[] =
+        firstPage?.availableLanguages.map(language => ({
+          value: language,
+          label: language,
+        })) ?? [];
+
+      const levelOptions: SelectOption[] =
+        firstPage?.availableLevels.map(level => ({
+          value: level,
+          label: level,
+        })) ?? [];
+
+      const priceOptions: SelectOption[] =
+        firstPage?.availablePrices.map(price => ({
+          value: String(price),
+          label: `${price} $`,
+        })) ?? [];
+
+      return {
+        teachers,
+        languageOptions,
+        levelOptions,
+        priceOptions,
+      };
+    }, [data]);
 
   const handleFavoriteToggle = (teacherId: string) => {
     if (!userId) {
@@ -65,7 +106,6 @@ export default function TeachersPage() {
 
     if (isFavorite) {
       deleteFavoriteMutation.mutate(teacherId);
-
       return;
     }
 
@@ -89,34 +129,18 @@ export default function TeachersPage() {
   }
 
   if (isError || !data) {
-    return <p>Something went wrong.</p>;
+    return (
+      <p className={css.errorMessage}>
+        Something went wrong. Please try again later.
+      </p>
+    );
   }
 
-  const teachers = data.pages.flatMap(page => page.teachers);
-
-  const firstPage = data.pages[0];
-
-  const languageOptions: SelectOption[] = firstPage.availableLanguages.map(
-    language => ({
-      value: language,
-      label: language,
-    })
-  );
-
-  const levelOptions: SelectOption[] = firstPage.availableLevels.map(level => ({
-    value: level,
-    label: level,
-  }));
-
-  const priceOptions: SelectOption[] = firstPage.availablePrices.map(price => ({
-    value: String(price),
-    label: `${price} $`,
-  }));
-
   return (
-    <>
-      <div>
+    <main className={css.page}>
+      <div className={css.filters}>
         <Select
+          className={css.filterLanguage}
           label="Languages"
           placeholder="Language"
           options={languageOptions}
@@ -125,6 +149,7 @@ export default function TeachersPage() {
         />
 
         <Select
+          className={css.filterLevel}
           label="Level of knowledge"
           placeholder="Level"
           options={levelOptions}
@@ -133,6 +158,7 @@ export default function TeachersPage() {
         />
 
         <Select
+          className={css.filterPrice}
           label="Price"
           placeholder="Price"
           options={priceOptions}
@@ -151,18 +177,21 @@ export default function TeachersPage() {
           />
 
           {hasNextPage && (
-           <div className={css.loadMore}>
-    <Button
-        onClick={handleLoadMore}
-        disabled={isFetchingNextPage}
-    >
-        {isFetchingNextPage ? 'Loading...' : 'Load more'}
-    </Button>
-</div>
+            <div className={css.loadMore}>
+              <Button
+                className={css.loadMoreButton}
+                onClick={handleLoadMore}
+                disabled={isFetchingNextPage}
+              >
+                {isFetchingNextPage ? 'Loading...' : 'Load more'}
+              </Button>
+            </div>
           )}
         </>
       ) : (
-        <p>No teachers found matching your filters.</p>
+        <p className={css.emptyState}>
+          No teachers found matching your filters.
+        </p>
       )}
 
       <Modal isOpen={selectedTeacher !== null} onClose={handleCloseBooking}>
@@ -173,6 +202,6 @@ export default function TeachersPage() {
           />
         )}
       </Modal>
-    </>
+    </main>
   );
 }
