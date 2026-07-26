@@ -33,10 +33,10 @@ export default function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   const onSubmit = async (values: RegistrationFormValues) => {
     try {
       await registerUser(values);
-      toast.success('Registration successful');
+      toast.success('Welcome! Your account has been created.');
       onSuccess?.();
     } catch {
-      toast.error('Failed to register. This email may be already in use');
+      toast.error('Registration failed. Please check your details and try again.');
     }
   };
 

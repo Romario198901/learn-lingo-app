@@ -46,12 +46,14 @@ export default function BookingForm({ teacher, onSuccess }: BookingFormProps) {
       },
       {
         onSuccess: () => {
-          toast.success('Trial lesson booked successfully');
+          toast.success('Your trial lesson has been booked successfully.');
+
           reset();
           onSuccess?.();
         },
+
         onError: () => {
-          toast.error('Failed to book trial lesson');
+          toast.error('Failed to book the trial lesson. Please try again.');
         },
       }
     );

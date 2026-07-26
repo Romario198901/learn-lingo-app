@@ -32,10 +32,10 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
   const onSubmit = async (values: LoginFormValues) => {
     try {
       await login(values);
-      toast.success('Logged in successfully');
+      toast.success('You have successfully signed in.');
       onSuccess?.();
     } catch {
-      toast.error('Invalid email or password');
+      toast.error('Invalid email or password.');
     }
   };
 

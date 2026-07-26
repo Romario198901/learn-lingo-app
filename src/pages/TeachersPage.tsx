@@ -95,22 +95,21 @@ export default function TeachersPage() {
       };
     }, [data]);
 
-  const handleFavoriteToggle = (teacherId: string) => {
-    if (!userId) {
-      toast.error('This functionality is available only to authorized users.');
+ const handleFavoriteToggle = (teacherId: string) => {
+  if (!userId) {
+    toast.error('Please sign in to use favorites.');
+    return;
+  }
 
-      return;
-    }
+  const isFavorite = favoriteTeacherIds.includes(teacherId);
 
-    const isFavorite = favoriteTeacherIds.includes(teacherId);
+  if (isFavorite) {
+    deleteFavoriteMutation.mutate(teacherId);
+    return;
+  }
 
-    if (isFavorite) {
-      deleteFavoriteMutation.mutate(teacherId, {onError: ()=> {toast.error('Failed to delete teacher from favorites')}});
-      return;
-    }
-
-    addFavoriteMutation.mutate(teacherId, {onError: ()=> {toast.error('Failed to add teacher to favorites')}});
-  };
+  addFavoriteMutation.mutate(teacherId);
+};
 
   const handleBookTrial = (teacher: Teacher) => {
     setSelectedTeacher(teacher);

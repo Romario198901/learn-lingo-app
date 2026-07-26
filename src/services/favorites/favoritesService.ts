@@ -1,33 +1,39 @@
-import axios from 'axios';
-import { getFireBaseUrl } from '../../api/firebaseRest';
+import { get, ref, remove, set } from 'firebase/database';
+
+import { database } from '../../api/firebase';
 
 export type FavoritesResponse = Record<string, true>;
 
 export const getFavoritesTeachersIds = async (
   userId: string
 ): Promise<string[]> => {
-  const { data } = await axios.get<FavoritesResponse | null>(
-    getFireBaseUrl(`users/${userId}/favorites`)
-  );
+  const favoritesRef = ref(database, `users/${userId}/favorites`);
 
-  if (!data) return [];
+  const snapshot = await get(favoritesRef);
 
-  return Object.keys(data);
+  if (!snapshot.exists()) {
+    return [];
+  }
+
+  const favorites = snapshot.val() as FavoritesResponse;
+
+  return Object.keys(favorites);
 };
 
 export const addTeacherToFavorites = async (
   teacherId: string,
   userId: string
 ): Promise<void> => {
-  await axios.put(
-    getFireBaseUrl(`users/${userId}/favorites/${teacherId}`),
-    true
-  );
+  const favoriteRef = ref(database, `users/${userId}/favorites/${teacherId}`);
+
+  await set(favoriteRef, true);
 };
 
 export const deleteTeacherFromFavorites = async (
   teacherId: string,
   userId: string
 ): Promise<void> => {
-  await axios.delete(getFireBaseUrl(`users/${userId}/favorites/${teacherId}`));
+  const favoriteRef = ref(database, `users/${userId}/favorites/${teacherId}`);
+
+  await remove(favoriteRef);
 };

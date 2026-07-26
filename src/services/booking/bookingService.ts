@@ -1,13 +1,11 @@
-import axios from 'axios';
+import { push, ref, set } from 'firebase/database';
+
+import { database } from '../../api/firebase';
+
 import type {
   BookingRequest,
   CreatedBookingRequest,
 } from '../../types/booking';
-import { getFireBaseUrl } from '../../api/firebaseRest';
-
-interface FireBaseCreateResponse {
-  name: string;
-}
 
 export const createBookingRequest = async (
   payload: CreatedBookingRequest
@@ -17,13 +15,14 @@ export const createBookingRequest = async (
     createdAt: Date.now(),
   };
 
-  const response = await axios.post<FireBaseCreateResponse>(
-    getFireBaseUrl('bookingRequests'),
-    bookingData
-  );
+  const bookingRequestsRef = ref(database, 'bookingRequests');
+
+  const newBookingRef = push(bookingRequestsRef);
+
+  await set(newBookingRef, bookingData);
 
   return {
-    id: response.data.name,
+    id: newBookingRef.key!,
     ...bookingData,
   };
 };
