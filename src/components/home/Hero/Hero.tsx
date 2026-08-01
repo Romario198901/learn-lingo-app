@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../../ui/Button/Button';
+
 import { ROUTES } from '../../../constants/routes';
 
 import css from './Hero.module.css';
@@ -22,13 +23,20 @@ export default function Hero() {
           highly qualified and experienced tutors.
         </p>
 
-        <Button className={css.button} onClick={() => navigate(ROUTES.TEACHERS)}>
+        <Button
+          className={css.button}
+          onClick={() => navigate(ROUTES.TEACHERS)}
+        >
           Get started
         </Button>
       </div>
 
-      <div className={css.imageWrapper} aria-hidden="true">
-        <img className={css.imagePlaceholder} src='/main.svg' alt='Curly smiley girl with a macbook'/>
+      <div className={css.imageWrapper}>
+        <img
+          className={css.image}
+          src="/main.svg"
+          alt="Smiling student working with a laptop"
+        />
       </div>
     </section>
   );

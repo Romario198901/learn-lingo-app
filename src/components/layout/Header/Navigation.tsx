@@ -1,16 +1,18 @@
 import { NavLink } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../../../constants/navigation';
+
 import css from './Header.module.css';
+import clsx from 'clsx';
 
 export default function Navigation() {
   return (
-    <nav className={css.navigation}>
+    <nav className={css.navigation} aria-label="Main navigation">
       {NAVIGATION_LINKS.map(({ label, path }) => (
         <NavLink
           key={path}
           to={path}
           className={({ isActive }) =>
-            isActive ? `${css.navLink} ${css.active}` : css.navLink
+            clsx(css.navLink, isActive && css.active)
           }
         >
           {label}

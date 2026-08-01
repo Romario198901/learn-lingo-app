@@ -142,7 +142,7 @@ export default function BookingForm({ teacher, onSuccess }: BookingFormProps) {
           className={css.submitButton}
           disabled={createBookingMutation.isPending}
         >
-          {createBookingMutation.isPending ? 'Booking...' : 'Book'}
+          {createBookingMutation.isPending ? 'Loading...' : 'Book'}
         </Button>
       </form>
     </div>

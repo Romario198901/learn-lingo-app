@@ -1,5 +1,9 @@
-list {
+.list {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-8);
+}
+
+.item {
+  min-width: 0;
 }

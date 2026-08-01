@@ -2,50 +2,68 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
+
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 1rem;
+
+  padding: var(--space-4);
+
+  overflow-y: auto;
+
   background-color: var(--color-overlay);
 }
 
 .modal {
   position: relative;
+
+  width: 100%;
   max-width: 35.375rem;
-  max-height: calc(100vh - 2rem);
-  padding: 4rem;
-  overflow-y: auto;
+  margin-block: auto;
+
+  padding: var(--space-10) var(--space-6);
+
   border-radius: var(--radius-xl);
   background-color: var(--color-white);
+  box-shadow: var(--shadow-modal);
 }
 
 .closeButton {
   position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
+  top: var(--space-5);
+  right: var(--space-5);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   width: 2rem;
   height: 2rem;
-  font-size: 2rem;
-  line-height: 1;
+
   color: var(--color-text-main);
+
   transition: color var(--transition-base);
 }
+
 .closeButton svg {
   width: 2rem;
   height: 2rem;
-  stroke: currentColor;
+
   fill: none;
+  stroke: currentColor;
 }
+
 .closeButton:hover,
-.closeButton:focus {
+.closeButton:focus-visible {
   color: var(--color-primary);
 }
 
-@media screen and (max-width: 47.9375rem) {
+@media screen and (min-width: 48rem) {
+  .backdrop {
+    padding: var(--space-8);
+  }
+
   .modal {
-    padding: 2.5rem 1.5rem;
+    padding: var(--space-16);
   }
 }

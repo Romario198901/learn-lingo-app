@@ -1,8 +1,10 @@
-import { useState } from 'react';
 import clsx from 'clsx';
+import { useState } from 'react';
+
 import Button from '../../ui/Button/Button';
 
 import type { Teacher } from '../../../types/teacher';
+
 import css from './TeacherCard.module.css';
 
 interface TeacherCardProps {
@@ -35,6 +37,8 @@ export default function TeacherCard({
     levels,
   } = teacher;
 
+  const fullName = `${name} ${surname}`;
+
   const handleFavoriteClick = () => {
     onFavoriteToggle(teacher.id);
   };
@@ -42,11 +46,7 @@ export default function TeacherCard({
   return (
     <article className={css.card}>
       <div className={css.avatarWrapper}>
-        <img
-          className={css.avatar}
-          src={avatar_url}
-          alt={`${name} ${surname}`}
-        />
+        <img className={css.avatar} src={avatar_url} alt={fullName} />
 
         <svg
           className={css.statusIcon}
@@ -60,12 +60,10 @@ export default function TeacherCard({
 
       <div className={css.content}>
         <div className={css.header}>
-          <div>
+          <div className={css.teacherHeading}>
             <p className={css.eyebrow}>Languages</p>
 
-            <h2 className={css.name}>
-              {name} {surname}
-            </h2>
+            <h2 className={css.name}>{fullName}</h2>
           </div>
 
           <div className={css.headerActions}>
@@ -79,7 +77,8 @@ export default function TeacherCard({
                 >
                   <use href="/sprite.svg#icon-book" />
                 </svg>
-                Lessons online
+
+                <span>Lessons online</span>
               </li>
 
               <li className={css.statisticItem}>
@@ -95,7 +94,8 @@ export default function TeacherCard({
                 >
                   <use href="/sprite.svg#icon-rating" />
                 </svg>
-                Rating: {rating.toFixed(1)}
+
+                <span>Rating: {rating.toFixed(1)}</span>
               </li>
 
               <li className={css.statisticItem}>
@@ -110,8 +110,8 @@ export default function TeacherCard({
               onClick={handleFavoriteClick}
               aria-label={
                 isFavorite
-                  ? `Remove ${name} ${surname} from favorites`
-                  : `Add ${name} ${surname} to favorites`
+                  ? `Remove ${fullName} from favorites`
+                  : `Add ${fullName} to favorites`
               }
               aria-pressed={isFavorite}
             >
@@ -133,16 +133,21 @@ export default function TeacherCard({
         <dl className={css.details}>
           <div className={css.detailRow}>
             <dt className={css.detailLabel}>Speaks:</dt>
-            <dd className={`${css.detailValue} ${css.language}`}>{languages.join(', ')}</dd>
+
+            <dd className={clsx(css.detailValue, css.language)}>
+              {languages.join(', ')}
+            </dd>
           </div>
 
           <div className={css.detailRow}>
             <dt className={css.detailLabel}>Lesson Info:</dt>
+
             <dd className={css.detailValue}>{lesson_info}</dd>
           </div>
 
           <div className={css.detailRow}>
             <dt className={css.detailLabel}>Conditions:</dt>
+
             <dd className={css.detailValue}>{conditions.join(', ')}</dd>
           </div>
         </dl>
@@ -158,17 +163,17 @@ export default function TeacherCard({
         )}
 
         {isExpanded && (
-          <>
+          <div className={css.expandedContent}>
             <p className={css.experience}>{experience}</p>
 
             <ul className={css.reviews}>
-              {reviews.map(review => (
+              {reviews.map((review, index) => (
                 <li
                   className={css.review}
-                  key={`${review.reviewer_name}-${review.comment}`}
+                  key={`${review.reviewer_name}-${index}`}
                 >
                   <div className={css.reviewHeader}>
-                    <div className={css.reviewAvatar}>
+                    <div className={css.reviewAvatar} aria-hidden="true">
                       {review.reviewer_name.charAt(0).toUpperCase()}
                     </div>
 
@@ -194,12 +199,15 @@ export default function TeacherCard({
                 </li>
               ))}
             </ul>
-          </>
+          </div>
         )}
 
         <ul className={css.levels}>
-          {levels.map(level => (
-            <li className={css.level} key={level}>
+          {levels.map((level, index) => (
+            <li
+              className={clsx(css.level, index === 0 && css.levelActive)}
+              key={level}
+            >
               #{level}
             </li>
           ))}

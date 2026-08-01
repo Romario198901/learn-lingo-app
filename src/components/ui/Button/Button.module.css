@@ -2,17 +2,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   min-height: 3rem;
-  padding: 0.875em 2em;
+  padding: var(--space-4) var(--space-8);
+
+  border: none;
   border-radius: var(--radius-md);
+
   font-size: var(--fs-md);
   font-weight: var(--fw-bold);
-  line-height: 1.25;
+  line-height: var(--lh-small);
+
+  cursor: pointer;
+
   transition:
     background-color var(--transition-base),
     color var(--transition-base),
     border-color var(--transition-base),
-    opacity var(--transition-base);
+    opacity var(--transition-base),
+    transform var(--transition-base);
 }
 
 .primary {
@@ -21,8 +29,8 @@
 }
 
 .primary:hover,
-.primary:focus {
-  background-color: var(--color-primary-light);
+.primary:focus-visible {
+  background-color: var(--color-primary-hover);
 }
 
 .secondary {
@@ -31,7 +39,7 @@
 }
 
 .secondary:hover,
-.secondary:focus {
+.secondary:focus-visible {
   opacity: 0.85;
 }
 
@@ -41,10 +49,12 @@
 }
 
 .ghost:hover,
-.ghost:focus {
+.ghost:focus-visible {
   color: var(--color-primary);
 }
 
 .button:disabled {
   opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }

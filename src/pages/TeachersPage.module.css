@@ -1,53 +1,62 @@
 .page {
   width: 100%;
-  padding-top: 2rem;
-  padding-bottom: 4rem;
+  flex: 1;
+
+  padding-block: var(--space-8) var(--space-16);
+
+  background-color: var(--color-background);
 }
 
 .filters {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 1rem;
-  margin-bottom: 2rem;
+  align-items: end;
+  gap: var(--space-4);
+
+  margin-bottom: var(--space-8);
 }
 
 .filterLanguage,
 .filterLevel,
 .filterPrice {
   width: 100%;
+  min-width: 0;
 }
 
-.emptyState {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 12rem;
-  margin-top: 2rem;
-  padding: 2rem;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-white);
-  color: var(--color-text-secondary);
-  font-size: var(--fs-md);
-  font-weight: var(--fw-medium);
-  text-align: center;
-}
-
+.emptyState,
 .errorMessage {
   display: flex;
   align-items: center;
   justify-content: center;
+
   min-height: 12rem;
-  padding: 2rem;
-  color: var(--color-text-main);
+  padding: var(--space-8);
+
+  border-radius: var(--radius-lg);
+
   font-size: var(--fs-md);
   font-weight: var(--fw-medium);
+  line-height: var(--lh-base);
   text-align: center;
+}
+
+.emptyState {
+  margin-top: var(--space-8);
+
+  color: var(--color-text-secondary);
+  background-color: var(--color-white);
+}
+
+.errorMessage {
+  color: var(--color-text-main);
+  background-color: var(--color-white);
 }
 
 .loadMore {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+
+  margin-top: var(--space-8);
 }
 
 .loadMoreButton {
@@ -56,36 +65,29 @@
 
 @media screen and (min-width: 48rem) {
   .page {
-    padding-top: 2.5rem;
-    padding-bottom: 5rem;
+    padding-block: var(--space-10) var(--space-20);
   }
 
   .filters {
     grid-template-columns:
       minmax(0, 13.75rem)
       minmax(0, 15rem)
-      minmax(0, 7.75rem);
-    align-items: end;
-    gap: 1.25rem;
-    margin-bottom: 2rem;
+      minmax(8.75rem, 10rem);
+
+    gap: var(--space-5);
   }
 
   .loadMore {
-    margin-top: 2.5rem;
+    margin-top: var(--space-10);
   }
 }
 
 @media screen and (min-width: 75rem) {
   .page {
-    padding-top: 4rem;
-    padding-bottom: 6rem;
-  }
-
-  .filters {
-    margin-bottom: 2rem;
+    padding-block: var(--space-16) var(--space-24);
   }
 
   .loadMore {
-    margin-top: 4rem;
+    margin-top: var(--space-16);
   }
 }

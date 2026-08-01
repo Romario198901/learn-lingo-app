@@ -1,13 +1,14 @@
 import TeacherCard from '../TeacherCard/TeacherCard';
 
 import type { Teacher } from '../../../types/teacher';
+
 import css from './TeachersList.module.css';
 
 interface TeachersListProps {
   teachers: Teacher[];
   favoriteTeacherIds: string[];
   onFavoriteToggle: (teacherId: string) => void;
-   onBookTrial:(teacher:Teacher)=>void;
+  onBookTrial: (teacher: Teacher) => void;
 }
 
 export default function TeachersList({

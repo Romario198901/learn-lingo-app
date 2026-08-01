@@ -1,77 +1,125 @@
 .header {
-  padding: 1.25rem 0;
+  padding-block: var(--space-4);
   background-color: var(--color-white);
 }
 
 .inner {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
+  gap: var(--space-4);
+  min-height: 3rem;
 }
+
+/* Logo */
 
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: var(--fs-lg);
+  justify-content: center;
+  gap: var(--space-2);
+
+  width: 100%;
+
+  font-size: var(--fs-xl);
   font-weight: var(--fw-medium);
-  line-height: 1.25;
+  line-height: var(--lh-small);
+  color: var(--color-text-main);
+
+  transition: opacity var(--transition-base);
+}
+
+.logo:hover,
+.logo:focus-visible {
+  opacity: 0.75;
 }
 
 .logoIcon {
-  font-size: 1.75rem;
-  line-height: 1;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
 }
 
 .logoText {
-  color: var(--color-text-main);
+  white-space: nowrap;
 }
+
+/* Main navigation */
 
 .navigation {
   display: flex;
   align-items: center;
+  justify-content: center;
+  order: 2;
+
+  width: 100%;
   gap: 1.75rem;
 }
 
 .navLink {
   position: relative;
+
+  padding-block: var(--space-2);
+
   font-size: var(--fs-md);
   font-weight: var(--fw-regular);
-  line-height: 1.25;
+  line-height: var(--lh-small);
   color: var(--color-text-main);
+
   transition: color var(--transition-base);
 }
 
 .navLink:hover,
-.navLink:focus {
+.navLink:focus-visible {
   color: var(--color-primary);
 }
 
 .active {
-  color: var(--color-primary);
+  font-weight: var(--fw-medium);
 }
+
+/* User controls */
 
 .userMenu {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  order: 3;
+
+  width: 100%;
+  gap: var(--space-4);
 }
 
 .loginButton {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: var(--space-2);
+
+  min-height: 3rem;
+
   font-size: var(--fs-md);
   font-weight: var(--fw-bold);
-  line-height: 1.25;
+  line-height: var(--lh-small);
   color: var(--color-text-main);
+
   transition: color var(--transition-base);
 }
 
 .loginButton:hover,
-.loginButton:focus {
+.loginButton:focus-visible {
   color: var(--color-primary);
+}
+
+.loginIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.registrationButton {
+  min-width: 10.375rem;
+  min-height: 3rem;
 }
 
 .authNavigation {
@@ -80,13 +128,96 @@
 }
 
 .userName {
-  max-width: 10rem;
+  max-width: 100%;
   overflow: hidden;
+
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
-  line-height: 1.25;
+  line-height: var(--lh-small);
   color: var(--color-text-main);
+
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.logoutButton {
+  min-width: 7rem;
+  min-height: 3rem;
+}
+
+/* Tablet */
+
+@media screen and (min-width: 36rem) {
+  .logo {
+    justify-content: flex-start;
+    width: auto;
+    margin-right: auto;
+  }
+
+  .userMenu {
+    justify-content: flex-end;
+    order: initial;
+    width: auto;
+    margin-left: auto;
+  }
+
+  .navigation {
+    order: 3;
+  }
+
+  .userName {
+    max-width: 9rem;
+  }
+}
+
+/* Large tablet */
+
+@media screen and (min-width: 48rem) {
+  .header {
+    padding-block: var(--space-5);
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: var(--space-6);
+    row-gap: var(--space-4);
+  }
+
+  .logo {
+    margin-right: 0;
+  }
+
+  .navigation {
+    justify-self: end;
+    order: initial;
+    width: auto;
+  }
+
+  .userMenu {
+    grid-column: 1 / -1;
+    justify-self: end;
+
+    width: auto;
+    margin-left: 0;
+  }
+}
+
+/* Desktop */
+
+@media screen and (min-width: 64rem) {
+  .inner {
+    grid-template-columns: auto 1fr auto;
+    column-gap: var(--space-12);
+    row-gap: 0;
+  }
+
+  .navigation {
+    justify-self: center;
+  }
+
+  .userMenu {
+    grid-column: auto;
+    justify-self: end;
+  }
+}

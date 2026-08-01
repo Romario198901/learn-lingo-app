@@ -3,30 +3,33 @@
 }
 
 .header {
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--space-10);
 }
 
 .title {
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-5);
+
   font-size: var(--fs-3xl);
   font-weight: var(--fw-medium);
-  line-height: 1.2;
+  line-height: var(--lh-title);
+
   color: var(--color-text-main);
 }
 
 .text {
   font-size: var(--fs-md);
   line-height: 1.375;
-  color: rgba(18, 20, 23, 0.8);
+
+  color: var(--color-text-muted);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.125rem;
+  gap: var(--space-4);
 }
 
 .submitButton {
   width: 100%;
-  margin-top: 1.375rem;
+  margin-top: var(--space-6);
 }

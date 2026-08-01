@@ -1,21 +1,21 @@
 import { useMemo, useState } from 'react';
 
-import css from './FavoritesPage.module.css';
-
 import BookingForm from '../components/BookingForm/BookingForm';
 import Loader from '../components/Loader/Loader';
 import TeachersList from '../components/teachers/TeachersList/TeachersList';
 import Button from '../components/ui/Button/Button';
+import Container from '../components/ui/Container/Container';
 import Modal from '../components/ui/Modal/Modal';
 import Select, { type SelectOption } from '../components/ui/Select/Select';
 
-import { useAuth } from '../hooks/useAuth';
 import { useDeleteFavorite } from '../hooks/favorites/useDeleteFavorite';
 import { useFavoriteTeachers } from '../hooks/favorites/useFavoriteTeachers';
 import { useFavorites } from '../hooks/favorites/useFavorites';
+import { useAuth } from '../hooks/useAuth';
 
 import type { Teacher } from '../types/teacher';
-import toast from 'react-hot-toast';
+
+import css from './FavoritesPage.module.css';
 
 export default function FavoritesPage() {
   const [selectedLanguage, setSelectedLanguage] = useState<SelectOption | null>(
@@ -104,11 +104,7 @@ export default function FavoritesPage() {
       return;
     }
 
-    deleteFavoriteMutation.mutate(teacherId, {
-      onError: () => {
-        toast.error('Failed to delete teacher from favorites');
-      },
-    });
+    deleteFavoriteMutation.mutate(teacherId);
   };
 
   const handleBookTrial = (teacher: Teacher) => {
@@ -128,85 +124,91 @@ export default function FavoritesPage() {
 
   const isError = isFavoritesError || isTeachersError;
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isError) {
-    return (
-      <p className={css.errorMessage}>
-        Something went wrong. Please try again later.
-      </p>
-    );
-  }
-
   const hasFavorites = favoriteTeacherIds.length > 0;
-  const hasFilteredTeachers = favoriteTeachers.length > 0;
+  const hasResults = favoriteTeachers.length > 0;
 
   return (
-    <main className={css.page}>
-      {hasFavorites && (
-        <div className={css.filters}>
-          <Select
-            label="Languages"
-            placeholder="Language"
-            options={languageOptions}
-            value={selectedLanguage}
-            onChange={setSelectedLanguage}
-          />
-
-          <Select
-            label="Level of knowledge"
-            placeholder="Level"
-            options={levelOptions}
-            value={selectedLevel}
-            onChange={setSelectedLevel}
-          />
-
-          <Select
-            label="Price"
-            placeholder="Price"
-            options={priceOptions}
-            value={selectedPrice}
-            onChange={setSelectedPrice}
-          />
-        </div>
-      )}
-
-      {!hasFavorites ? (
-        <div className={css.emptyState}>
-          <h1 className={css.emptyTitle}>No favorite teachers yet</h1>
-
-          <p className={css.emptyText}>
-            Add teachers to your favorites to find them quickly later.
+    <section className={css.page}>
+      <Container>
+        {isLoading ? (
+          <Loader />
+        ) : isError ? (
+          <p className={css.errorMessage}>
+            Something went wrong. Please try again later.
           </p>
-        </div>
-      ) : hasFilteredTeachers ? (
-        <>
-          <TeachersList
-            teachers={favoriteTeachers}
-            favoriteTeacherIds={favoriteTeacherIds}
-            onFavoriteToggle={handleFavoriteToggle}
-            onBookTrial={handleBookTrial}
-          />
+        ) : (
+          <>
+            {hasFavorites && (
+              <div className={css.filters}>
+                <Select
+                  className={css.filterLanguage}
+                  label="Languages"
+                  placeholder="Language"
+                  options={languageOptions}
+                  value={selectedLanguage}
+                  onChange={setSelectedLanguage}
+                  isClearable
+                />
 
-          {hasNextPage && (
-            <div className={css.loadMore}>
-              <Button
-                className={css.loadMoreButton}
-                onClick={handleLoadMore}
-                disabled={isFetchingNextPage}
-              >
-                {isFetchingNextPage ? 'Loading...' : 'Load more'}
-              </Button>
-            </div>
-          )}
-        </>
-      ) : (
-        <p className={css.noResults}>
-          No favorite teachers found matching your filters.
-        </p>
-      )}
+                <Select
+                  className={css.filterLevel}
+                  label="Level of knowledge"
+                  placeholder="Level"
+                  options={levelOptions}
+                  value={selectedLevel}
+                  onChange={setSelectedLevel}
+                  isClearable
+                />
+
+                <Select
+                  className={css.filterPrice}
+                  label="Price"
+                  placeholder="Price"
+                  options={priceOptions}
+                  value={selectedPrice}
+                  onChange={setSelectedPrice}
+                  isClearable
+                />
+              </div>
+            )}
+
+            {!hasFavorites ? (
+              <div className={css.emptyState}>
+                <h1 className={css.emptyTitle}>No favorite teachers yet</h1>
+
+                <p className={css.emptyText}>
+                  Add teachers to your favorites to find them quickly later.
+                </p>
+              </div>
+            ) : hasResults ? (
+              <>
+                <TeachersList
+                  teachers={favoriteTeachers}
+                  favoriteTeacherIds={favoriteTeacherIds}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  onBookTrial={handleBookTrial}
+                />
+
+                {hasNextPage && (
+                  <div className={css.loadMore}>
+                    <Button
+                      className={css.loadMoreButton}
+                      onClick={handleLoadMore}
+                      disabled={isFetchingNextPage}
+                    >
+                      {isFetchingNextPage ? 'Loading...' : 'Load more'}
+                    </Button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <p className={css.noResults}>
+                No favorite teachers found matching your filters.
+              </p>
+            )}
+          </>
+        )}
+      </Container>
 
       <Modal isOpen={selectedTeacher !== null} onClose={handleCloseBooking}>
         {selectedTeacher && (
@@ -216,6 +218,6 @@ export default function FavoritesPage() {
           />
         )}
       </Modal>
-    </main>
+    </section>
   );
 }

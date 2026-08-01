@@ -22,18 +22,8 @@ export default function Input({
     <div className={css.wrapper}>
       <div className={css.inputWrapper}>
         <input
-          type={
-            isPassword
-              ? showPassword
-                ? 'text'
-                : 'password'
-              : type
-          }
-          className={clsx(
-            css.input,
-            error && css.errorInput,
-            className
-          )}
+          type={isPassword ? (showPassword ? 'text' : 'password') : type}
+          className={clsx(css.input, error && css.errorInput, className)}
           {...props}
         />
 
@@ -42,11 +32,7 @@ export default function Input({
             type="button"
             className={css.eyeButton}
             onClick={() => setShowPassword(prev => !prev)}
-            aria-label={
-              showPassword
-                ? 'Hide password'
-                : 'Show password'
-            }
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             <svg className={css.eyeIcon}>
               <use
@@ -59,11 +45,7 @@ export default function Input({
         )}
       </div>
 
-      {error && (
-        <p className={css.errorText}>
-          {error}
-        </p>
-      )}
+      {error && <span className={css.errorText}>{error}</span>}
     </div>
   );
 }

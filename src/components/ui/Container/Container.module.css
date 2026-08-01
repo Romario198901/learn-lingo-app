@@ -10,3 +10,15 @@
     padding: 0 var(--container-padding-tablet);
   }
 }
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-mobile);
+}
+
+@media screen and (min-width: 48rem) {
+  .container {
+    padding-inline: var(--container-padding-tablet);
+  }
+}

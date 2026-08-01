@@ -1,21 +1,21 @@
-import React from 'react';
 import { ColorRing } from 'react-loader-spinner';
+
 import css from './Loader.module.css';
 
-const Loader: React.FC = () => {
+export default function Loader() {
   return (
-    <div className={css.loaderContainer}>
+    <div
+      className={css.loader}
+      role="status"
+      aria-live="polite"
+      aria-label="Loading"
+    >
       <ColorRing
-        visible={true}
-        height="80"
+        visible
         width="80"
-        ariaLabel="color-ring-loading"
-        wrapperStyle={{}}
-        wrapperClass="color-ring-wrapper"
-        colors={['#feeccc', '#FEF1DB', '#FFCBD3', '#FFDAE0FF', '#C4F2FE']}
+        height="80"
+        colors={['#feeccc', '#FEF1DB', '#FFCBD3', '#FFDAE0', '#C4F2FE']}
       />
     </div>
   );
-};
-
-export default Loader;
+}

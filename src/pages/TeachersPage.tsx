@@ -1,22 +1,23 @@
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import css from './TeachersPage.module.css';
-
-import TeachersList from '../components/teachers/TeachersList/TeachersList';
+import BookingForm from '../components/BookingForm/BookingForm';
 import Loader from '../components/Loader/Loader';
+import TeachersList from '../components/teachers/TeachersList/TeachersList';
+import Button from '../components/ui/Button/Button';
+import Container from '../components/ui/Container/Container';
 import Modal from '../components/ui/Modal/Modal';
 import Select, { type SelectOption } from '../components/ui/Select/Select';
-import BookingForm from '../components/BookingForm/BookingForm';
-import Button from '../components/ui/Button/Button';
 
-import { useAuth } from '../hooks/useAuth';
-import { useTeachers } from '../hooks/useTeachers';
-import { useFavorites } from '../hooks/favorites/useFavorites';
 import { useAddFavorite } from '../hooks/favorites/useAddFavorite';
 import { useDeleteFavorite } from '../hooks/favorites/useDeleteFavorite';
+import { useFavorites } from '../hooks/favorites/useFavorites';
+import { useAuth } from '../hooks/useAuth';
+import { useTeachers } from '../hooks/useTeachers';
 
 import type { Teacher } from '../types/teacher';
+
+import css from './TeachersPage.module.css';
 
 export default function TeachersPage() {
   const [selectedLanguage, setSelectedLanguage] = useState<SelectOption | null>(
@@ -95,21 +96,21 @@ export default function TeachersPage() {
       };
     }, [data]);
 
- const handleFavoriteToggle = (teacherId: string) => {
-  if (!userId) {
-    toast.error('Please sign in to use favorites.');
-    return;
-  }
+  const handleFavoriteToggle = (teacherId: string) => {
+    if (!userId) {
+      toast.error('Please sign in to use favorites.');
+      return;
+    }
 
-  const isFavorite = favoriteTeacherIds.includes(teacherId);
+    const isFavorite = favoriteTeacherIds.includes(teacherId);
 
-  if (isFavorite) {
-    deleteFavoriteMutation.mutate(teacherId);
-    return;
-  }
+    if (isFavorite) {
+      deleteFavoriteMutation.mutate(teacherId);
+      return;
+    }
 
-  addFavoriteMutation.mutate(teacherId);
-};
+    addFavoriteMutation.mutate(teacherId);
+  };
 
   const handleBookTrial = (teacher: Teacher) => {
     setSelectedTeacher(teacher);
@@ -123,75 +124,78 @@ export default function TeachersPage() {
     fetchNextPage();
   };
 
-  if (isPending) {
-    return <Loader />;
-  }
-
-  if (isError || !data) {
-    return (
-      <p className={css.errorMessage}>
-        Something went wrong. Please try again later.
-      </p>
-    );
-  }
-
   return (
-    <main className={css.page}>
-      <div className={css.filters}>
-        <Select
-          className={css.filterLanguage}
-          label="Languages"
-          placeholder="Language"
-          options={languageOptions}
-          value={selectedLanguage}
-          onChange={setSelectedLanguage}
-        />
+    <section className={css.page}>
+      <Container>
+        {isPending ? (
+          <Loader />
+        ) : isError || !data ? (
+          <p className={css.errorMessage}>
+            Something went wrong. Please try again later.
+          </p>
+        ) : (
+          <>
+            <div className={css.filters}>
+              <Select
+                className={css.filterLanguage}
+                label="Languages"
+                placeholder="Language"
+                options={languageOptions}
+                value={selectedLanguage}
+                onChange={setSelectedLanguage}
+                isClearable
+              />
 
-        <Select
-          className={css.filterLevel}
-          label="Level of knowledge"
-          placeholder="Level"
-          options={levelOptions}
-          value={selectedLevel}
-          onChange={setSelectedLevel}
-        />
+              <Select
+                className={css.filterLevel}
+                label="Level of knowledge"
+                placeholder="Level"
+                options={levelOptions}
+                value={selectedLevel}
+                onChange={setSelectedLevel}
+                isClearable
+              />
 
-        <Select
-          className={css.filterPrice}
-          label="Price"
-          placeholder="Price"
-          options={priceOptions}
-          value={selectedPrice}
-          onChange={setSelectedPrice}
-        />
-      </div>
-
-      {teachers.length > 0 ? (
-        <>
-          <TeachersList
-            teachers={teachers}
-            favoriteTeacherIds={favoriteTeacherIds}
-            onFavoriteToggle={handleFavoriteToggle}
-            onBookTrial={handleBookTrial}
-          />
-
-          {hasNextPage && (
-            <div className={css.loadMore}>
-              <Button
-                className={css.loadMoreButton}
-                onClick={handleLoadMore}
-                disabled={isFetchingNextPage}
-              >
-                {isFetchingNextPage ? 'Loading...' : 'Load more'}
-              </Button>
+              <Select
+                className={css.filterPrice}
+                label="Price"
+                placeholder="Price"
+                options={priceOptions}
+                value={selectedPrice}
+                onChange={setSelectedPrice}
+                isClearable
+              />
             </div>
-          )}
-        </>
-      ) : (
-        <p className={css.emptyState}>
-          No teachers found matching your filters.
-        </p>
-      )}
+
+            {teachers.length > 0 ? (
+              <>
+                <TeachersList
+                  teachers={teachers}
+                  favoriteTeacherIds={favoriteTeacherIds}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  onBookTrial={handleBookTrial}
+                />
+
+                {hasNextPage && (
+                  <div className={css.loadMore}>
+                    <Button
+                      className={css.loadMoreButton}
+                      onClick={handleLoadMore}
+                      disabled={isFetchingNextPage}
+                    >
+                      {isFetchingNextPage ? 'Loading...' : 'Load more'}
+                    </Button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <p className={css.emptyState}>
+                No teachers found matching your filters.
+              </p>
+            )}
+          </>
+        )}
+      </Container>
 
       <Modal isOpen={selectedTeacher !== null} onClose={handleCloseBooking}>
         {selectedTeacher && (
@@ -201,6 +205,6 @@ export default function TeachersPage() {
           />
         )}
       </Modal>
-    </main>
+    </section>
   );
 }
